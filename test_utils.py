@@ -5,7 +5,7 @@ import contractions
 import re
 from nltk.tokenize import word_tokenize
 import pandas as pd
-import snscrape.modules.twitter as sntwitter
+import tweepy
 
 import nltk
 
@@ -16,10 +16,46 @@ nltk.download('stopwords')
 
 
 def get_tweets(username):
+
+
+    # Enter your Twitter API credentials
+    consumer_key = "KjydR0zAaJDnIlYQxhZfJYYlp"
+    consumer_secret = "dnOZ0qanlecgd9JGT5KyNH2i8TwwH8fmmM3GWgCuW143aMohuR"
+    access_token = '1533426490078941184-IeDstb75aMo1EhLnFFAZZLbI6OOflA'
+    access_token_secret = 'LMOBrFlrJwETXqvsM4HekZoX762d1yJtJWScXndXytdaT'
+    bearer_token='AAAAAAAAAAAAAAAAAAAAANbGnQEAAAAAAbaa5%2BpdWfxIszGLrhy%2FnL%2B5pPU%3DdDHetcnN502kKj2iWW2BHHcB8Nh1VGiY09lXXjk8A49XV6JydB'
+# consumer_key = "gWREkSJyHnZ0EX2TbDf6ls6hr"
+#     consumer_secret = "xdV9tuU5OHqHlGb2kqsSsqcVlnrVNHegaQoyy2eUMkfeLcLIdY"
+#     access_token = '1401910044547944448-IYTjEOmLy8D8nGDPeLYAdfoNuLgvL1'
+#     access_token_secret = 'qlNZlcj9PuzL2J0hfBs4vpNFafQNwXxsr4YpKfHIei4cN'
+#     bearer_token='AAAAAAAAAAAAAAAAAAAAAAbwnQEAAAAAJ39J1ByFAtsJIsVXqL7k3s0kwDo%3D9hRgN7N5gAfy4nsVTsmLTGFdmUtLrqEsda3tcA31k8vjK4VGzX'
+
+    # Authenticate to Twitter API
+    # auth = tweepy.OAuth1UserHandler(
+    #     consumer_key, consumer_secret, access_token, access_token_secret, bearer_token
+    # )
+
+    # Create the API client object
+
+    client = tweepy.Client(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token=access_token,
+                           access_token_secret=access_token_secret, bearer_token=bearer_token)
+    # for tweet in tweepy.Paginator(client.search_recent_tweets, query=username,max_results= 100):
+    #     tweets.append(tweet.text)
+
+    # api = tweepy.API(client)
+    # tweetey = api.home_timeline()
+    # Get the user's timeline tweets
+    user = client.get_user(username=username)
+
+    # Extract the user ID from the user object
+    user_id = user.id
+    tweetey = client.get_users_tweets(user_id, max_results=20)
+
     tweets = []
-    for i, tweet in enumerate(sntwitter.TwitterSearchScraper(f'from:{username}').get_items()):
-        tweets.append(tweet.content)
-        if i == 50: break
+    # Print the tweets
+    for tweet in tweetey:
+        tweets.append(tweet.text)
+
     return tweets
 
 

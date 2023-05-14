@@ -10,7 +10,7 @@
 		<input type="file" id="resume" name="resume" accept="application/pdf"><br><br>
 		<input type="submit" value="Submit">
 	</form>
-<form action="{{url_for('tweet')}}" method="POST" >
+<form action="/tweet" method="POST" enctype="multipart/form-data" >
 		<label for="username">Enter your Twitter username</label><br>
 		<input type="text" id="username" name="username" placeholder="Username"><br><br>
 		<input type="submit" value="Submit">

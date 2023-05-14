@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  
+<head>
+  <meta charset="UTF-8" />
+  <!-- This meta tag is loaded to enable the google login -->
+  <meta name="google-signin-client_id" content="793673513593-l84egn4cto7mq8k53v6ff1dbu6hi12op.apps.googleusercontent.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Font awesome kit is loaded here -->
+  <script
+    src="https://kit.fontawesome.com/64d58efce2.js"
+    crossorigin="anonymous"
+  ></script>
+
+  <link rel="stylesheet" href="{{ url_for('static',filename='style_login.css') }}" />
+  <title>Sign in & Sign up Form</title>
+</head>
+
+<body>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  
+  <div class="container">
+
+    <!-- This will contain the Sign in and Sign Up form -->
+    <div class="forms-container">
+
+      <div class="signin-signup">
+        
+        <!-- Sign In Form -->
+        <form action="#" class="sign-in-form">
+          <h2 class="title">Sign in</h2>
+          <div class="input-field">
+            <!-- Font Awesome Kit is used here -->
+            <i class="fas fa-user"></i> 
+            <input type="text" id="username_login" placeholder="Username" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" />
+          </div>
+
+          <!-- Login Button -->
+          <input onclick="login()" type="submit" value="Login" class="btn solid" />
+          
+          <p class="social-text">Or Sign In with Google:</p>
+          
+          <!-- Option to sign in with google -->
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form action="#" class="sign-up-form">
+          
+          <h2 class="title">Sign up</h2>
+
+          <!-- User Inputs -->
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" placeholder="Username" />
+          </div>
+
+          <div class="input-field">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email" placeholder="Email" />
+          </div>
+
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Password" />
+          </div>
+          
+          <!-- Sign Up Button -->
+          <input onclick="register()" type="submit" id="signUp" class="btn" value="Sign up" />
+          
+          <p class="social-text">Or directly Login with:</p>
+          <div class="social-media">
+
+          <!-- Button to directly login via google -->
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </form>
+
+      </div>
+
+    </div>
+
+    <!-- This will contain the side panels through which we can switch in between the login and sign up pages -->
+    <div class="panels-container">
+      
+      <!-- Left Panel -->
+      <div class="panel left-panel">
+        <div class="content">
+          
+          <h3>New Here ?</h3>
+          <p>Sign up yourself for the best experience of getting recruited!</p>
+          
+          <!-- Button to enter sign up mode -->
+          <button class="btn transparent" id="sign-up-btn">Sign up</button>
+          
+        </div>
+        <img src="img/log.svg" class="image" alt="" />
+      </div>
+
+      <!-- Right Panel -->
+      <div class="panel right-panel">
+        
+        <div class="content">
+
+          <h3>Already Registered ?</h3>
+          <p>Click here to Sign In!</p>
+          
+          <!-- Button to enter Sign In Mode -->
+          <button class="btn transparent" id="sign-in-btn">Sign in</button>
+
+        </div>
+        <img src="img/register.svg" class="image" alt="" />
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+      // import { initializeApp } from 'firebase/app';
+      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+      // import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyD9enpkmjgsTLrnYbNAdr03U2y8FSbslhA",
+        authDomain: "ppucva.firebaseapp.com",
+        databaseURL: "https://ppucva-default-rtdb.firebaseio.com",
+        projectId: "ppucva",
+        storageBucket: "ppucva.appspot.com",
+        messagingSenderId: "658583319776",
+        appId: "1:658583319776:web:3ffb4502e7d0505f404c85"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      // New registration
+      document.getElementById("signUp").addEventListener("click", function(){
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var username = document.getElementById("username").value;
+        alert("yahan tak to chal gaya")
+        // Now we will register the new user
+        createUserWithEmailAndPassword(auth, email, password).then((userCredential)=>{
+          //Signed In
+          const user = userCredential.user;
+          console.log(user);
+          alert("Registration successful!");
+        })
+        .catch((error)=>{
+          const errorCode = error.code;
+          const errorMessage = error.message;
+
+          console.log(errorMessage);
+          alert(error);
+        });
+      });
+      // console.log(app);
+
+      // Login Code Starts
+      document.getElementById("Login").addEventListener("click", function(){
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        signInWithEmailAndPassword(auth, email, password).then((userCredential)=>{
+          //Signed In
+          const user = userCredential.user;
+          console.log(user);
+          alert(user.email+"Login successfully!");
+          document.getElementById('logout').style.display = 'block';
+        })
+        .catch((error)=>{
+          const errorCode = error.code;
+          const errorMessage = error.message;
+
+          console.log(errorMessage);
+          alert(error);
+        });
+      });
+      // Login Code Ends
+
+      // Logout Code Starts
+      document.getElementById("logout").addEventListener("click",function(){
+        signOut(auth).then(()=>{
+          console.log('Sign-out successful');
+          alert('Sign-out successful');
+          document.getElementById('logout').style.display = 'none';
+        })
+        .catch((error)=>{
+          console.log('An error happened');
+        });
+      });
+    </script>
+
+  <script src="{{ url_for('static',filename='googleauth.js') }}"></script>
+  <script src="{{ url_for('static',filename='login.js') }}"></script>
+  
+</html>
