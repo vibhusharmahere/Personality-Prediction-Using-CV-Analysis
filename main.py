@@ -19,21 +19,283 @@ with open('vectorizer.pkl', 'rb') as f:
 if isinstance(model, scipy.sparse.csr_matrix):
     model = csr_matrix(model)
 
-
+@app.route('/about')
+def about():
+    return render_template('about.html')
 @app.route("/login")
 def login():
     return render_template('login.html')
+
+@app.route("/resume")
+def resume():
+    return render_template('resume.html')
+
+@app.route("/upload")
+def upload():
+    return render_template('upload.html')
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/tweet', methods=["GET","POST"])
+@app.route('/tweet', methods=["POST"])
 def tweet():
-    if request.method == "POST" and "username" in request.form:
-        username = request.form['username']
-        model_prediction, tweets = get_prediction_for_tweets(username)
-        return render_template('prediction.html', username=username, predicted_type=model_prediction, tweets=tweets)
+    username = request.form['username']
+    personality_trait, tweets = get_prediction_for_tweets(username)
+    result = ""
+    IorE = ""
+    SorN = ""
+    TorF = ""
+    PorJ = ""
+    character = ""
+    if personality_trait == "ISTJ":
+        result = "Reserved and practical, they tend to be loyal, orderly, and traditional."
+        character = "The Inspector"
+        IorE = "Introvert"
+        SorN = "Sensing"
+        TorF = "Thinking"
+        PorJ = "Judging"
+    elif personality_trait == "ISTP":
+        result = "Highly independent, they enjoy new experiences that provide first-hand learning."
+        character = "The Crafter"
+        IorE = "Introvert"
+        SorN = "Sensing"
+        TorF = "Thinking"
+        PorJ = "Perceiving"
+    elif personality_trait == "ISFJ":
+        result = "Warm-hearted and dedicated, they are always ready to protect the people they care about."
+        character = "The Protector"
+        IorE = "Introvert"
+        SorN = "Sensing"
+        TorF = "Feeling"
+        PorJ = "Judging"
+    elif personality_trait == "ISFP":
+        result = "Easy-going and flexible, they tend to be reserved and artistic."
+        character = "The Artist"
+        IorE = "Introvert"
+        SorN = "Sensing"
+        TorF = "Feeling"
+        PorJ = "Perceiving"
+    elif personality_trait == "INFJ":
+        result = "Creative and analytical, they are considered one of the rarest Myers-Briggs types."
+        character = "The Advocate"
+        IorE = "Introvert"
+        SorN = "Intuition"
+        TorF = "Feeling"
+        PorJ = "Judging"
+    elif personality_trait == "INFP":
+        result = "Idealistic with high values, they strive to make the world a better place."
+        character = "The Mediator"
+        IorE = "Introvert"
+        SorN = "Intuition"
+        TorF = "Feeling"
+        PorJ = "Perceiving"
+    elif personality_trait == "INTJ":
+        result = "High logical, they are both very creative and analytical."
+        character = "The Architect"
+        IorE = "Introvert"
+        SorN = "Intuition"
+        TorF = "Thinking"
+        PorJ = "Judging"
+    elif personality_trait == "INTP":
+        result = "Quiet and introverted, they are known for having a rich inner world."
+        character = "The Thinker"
+        IorE = "Introvert"
+        SorN = "Intuition"
+        TorF = "Thinking"
+        PorJ = "Perceiving"
+    elif personality_trait == "ESTP":
+        result = "Out-going and dramatic, they enjoy spending time with others and focusing on the here-and-now."
+        character = "The Persuader"
+        IorE = "Extrovert"
+        SorN = "Sensing"
+        TorF = "Thinking"
+        PorJ = "Perceiving"
+    elif personality_trait == "ESTJ":
+        result = "Assertive and rule-oriented, they have high principles and a tendency to take charge."
+        character = "The Director"
+        IorE = "Extrovert"
+        SorN = "Sensing"
+        TorF = "Thinking"
+        PorJ = "Judging"
+    elif personality_trait == "ESFP":
+        result = "Outgoing and spontaneous, they enjoy taking center stage."
+        character = "The Performer"
+        IorE = "Extrovert"
+        SorN = "Sensing"
+        TorF = "Feeling"
+        PorJ = "Perceiving"
+    elif personality_trait == "ESFJ":
+        result = "Soft-hearted and outgoing, they tend to believe the best about other people."
+        character = "The Caregiver"
+        IorE = "Extrovert"
+        SorN = "Sensing"
+        TorF = "Feeling"
+        PorJ = "Judging"
+    elif personality_trait == "ENFP":
+        result = "Charismatic and energetic, they enjoy situations where they can put their creativity to work."
+        character = "The Champion"
+        IorE = "Extrovert"
+        SorN = "Intuition"
+        TorF = "Feeling"
+        PorJ = "Perceiving"
+    elif personality_trait == "ENFJ":
+        result = "Loyal and sensitive, they are known for being understanding and generous."
+        character = "The Giver"
+        IorE = "Extrovert"
+        SorN = "Intuition"
+        TorF = "Feeling"
+        PorJ = "Judging"
+    elif personality_trait == "ENTP":
+        result = "Highly inventive, they love being surrounded by ideas and tend to start many projects (but may struggle to finish them)."
+        character = "The Debater"
+        IorE = "Extrovert"
+        SorN = "Intuition"
+        TorF = "Thinking"
+        PorJ = "Perceiving"
+    elif personality_trait == "ENTJ":
+        result = "Outspoken and confident, they are great at making plans and organizing projects."
+        character = "The Commander"
+        IorE = "Extrovert"
+        SorN = "Intuition"
+        TorF = "Thinking"
+        PorJ = "Judging"
+    return render_template('result.html', predicted_type=personality_trait, result=result, character=character,IorE=IorE,SorN=SorN,TorF=TorF,PorJ=PorJ )
+
+@app.route('/predict_resume', methods=['POST'])
+def predict_resume():
+    skills = request.form['skills']
+    hobbies = request.form['hobbies']
+    intskills = request.form['intskills']
+    summary = request.form['summary']
+    projects = request.form['projects']
+    jobs = request.form['jobs']
+
+    text = ""+skills+" "+hobbies+" "+intskills+ " "+summary+" "+projects+" "+jobs
+    personality_trait = get_prediction(text)
+
+    result=""
+    IorE=""
+    SorN=""
+    TorF=""
+    PorJ=""
+    character=""
+    if personality_trait == "ISTJ":
+        result="Reserved and practical, they tend to be loyal, orderly, and traditional."
+        character="The Inspector"
+        IorE = "Introvert"
+        SorN = "Sensing"
+        TorF = "Thinking"
+        PorJ = "Judging"
+    elif personality_trait == "ISTP":
+        result="Highly independent, they enjoy new experiences that provide first-hand learning."
+        character = "The Crafter"
+        IorE = "Introvert"
+        SorN = "Sensing"
+        TorF = "Thinking"
+        PorJ = "Perceiving"
+    elif personality_trait == "ISFJ":
+        result="Warm-hearted and dedicated, they are always ready to protect the people they care about."
+        character = "The Protector"
+        IorE = "Introvert"
+        SorN = "Sensing"
+        TorF = "Feeling"
+        PorJ = "Judging"
+    elif personality_trait == "ISFP":
+        result="Easy-going and flexible, they tend to be reserved and artistic."
+        character = "The Artist"
+        IorE = "Introvert"
+        SorN = "Sensing"
+        TorF = "Feeling"
+        PorJ = "Perceiving"
+    elif personality_trait == "INFJ":
+        result="Creative and analytical, they are considered one of the rarest Myers-Briggs types."
+        character = "The Advocate"
+        IorE = "Introvert"
+        SorN = "Intuition"
+        TorF = "Feeling"
+        PorJ = "Judging"
+    elif personality_trait == "INFP":
+        result="Idealistic with high values, they strive to make the world a better place."
+        character = "The Mediator"
+        IorE = "Introvert"
+        SorN = "Intuition"
+        TorF = "Feeling"
+        PorJ = "Perceiving"
+    elif personality_trait == "INTJ":
+        result="High logical, they are both very creative and analytical."
+        character = "The Architect"
+        IorE = "Introvert"
+        SorN = "Intuition"
+        TorF = "Thinking"
+        PorJ = "Judging"
+    elif personality_trait == "INTP":
+        result="Quiet and introverted, they are known for having a rich inner world."
+        character = "The Thinker"
+        IorE = "Introvert"
+        SorN = "Intuition"
+        TorF = "Thinking"
+        PorJ = "Perceiving"
+    elif personality_trait == "ESTP":
+        result="Out-going and dramatic, they enjoy spending time with others and focusing on the here-and-now."
+        character = "The Persuader"
+        IorE = "Extrovert"
+        SorN = "Sensing"
+        TorF = "Thinking"
+        PorJ = "Perceiving"
+    elif personality_trait == "ESTJ":
+        result="Assertive and rule-oriented, they have high principles and a tendency to take charge."
+        character = "The Director"
+        IorE = "Extrovert"
+        SorN = "Sensing"
+        TorF = "Thinking"
+        PorJ = "Judging"
+    elif personality_trait == "ESFP":
+        result="Outgoing and spontaneous, they enjoy taking center stage."
+        character = "The Performer"
+        IorE = "Extrovert"
+        SorN = "Sensing"
+        TorF = "Feeling"
+        PorJ = "Perceiving"
+    elif personality_trait == "ESFJ":
+        result="Soft-hearted and outgoing, they tend to believe the best about other people."
+        character = "The Caregiver"
+        IorE = "Extrovert"
+        SorN = "Sensing"
+        TorF = "Feeling"
+        PorJ = "Judging"
+    elif personality_trait == "ENFP":
+        result="Charismatic and energetic, they enjoy situations where they can put their creativity to work."
+        character = "The Champion"
+        IorE = "Extrovert"
+        SorN = "Intuition"
+        TorF = "Feeling"
+        PorJ = "Perceiving"
+    elif personality_trait == "ENFJ":
+        result="Loyal and sensitive, they are known for being understanding and generous."
+        character = "The Giver"
+        IorE = "Extrovert"
+        SorN = "Intuition"
+        TorF = "Feeling"
+        PorJ = "Judging"
+    elif personality_trait == "ENTP":
+        result="Highly inventive, they love being surrounded by ideas and tend to start many projects (but may struggle to finish them)."
+        character = "The Debater"
+        IorE = "Extrovert"
+        SorN = "Intuition"
+        TorF = "Thinking"
+        PorJ = "Perceiving"
+    elif personality_trait == "ENTJ":
+        result="Outspoken and confident, they are great at making plans and organizing projects."
+        character = "The Commander"
+        IorE = "Extrovert"
+        SorN = "Intuition"
+        TorF = "Thinking"
+        PorJ = "Judging"
+
+
+    # Render the result template with the predicted personality trait
+    return render_template('result.html', personality_trait=personality_trait, result=result, character=character,IorE=IorE,SorN=SorN,TorF=TorF,PorJ=PorJ )
 
 
 @app.route('/predict', methods=['POST'])

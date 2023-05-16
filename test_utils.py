@@ -19,11 +19,11 @@ def get_tweets(username):
 
 
     # Enter your Twitter API credentials
-    consumer_key = "KjydR0zAaJDnIlYQxhZfJYYlp"
-    consumer_secret = "dnOZ0qanlecgd9JGT5KyNH2i8TwwH8fmmM3GWgCuW143aMohuR"
-    access_token = '1533426490078941184-IeDstb75aMo1EhLnFFAZZLbI6OOflA'
-    access_token_secret = 'LMOBrFlrJwETXqvsM4HekZoX762d1yJtJWScXndXytdaT'
-    bearer_token='AAAAAAAAAAAAAAAAAAAAANbGnQEAAAAAAbaa5%2BpdWfxIszGLrhy%2FnL%2B5pPU%3DdDHetcnN502kKj2iWW2BHHcB8Nh1VGiY09lXXjk8A49XV6JydB'
+    # consumer_key = "KjydR0zAaJDnIlYQxhZfJYYlp"
+    # consumer_secret = "dnOZ0qanlecgd9JGT5KyNH2i8TwwH8fmmM3GWgCuW143aMohuR"
+    # access_token = '1533426490078941184-IeDstb75aMo1EhLnFFAZZLbI6OOflA'
+    # access_token_secret = 'LMOBrFlrJwETXqvsM4HekZoX762d1yJtJWScXndXytdaT'
+    # bearer_token='AAAAAAAAAAAAAAAAAAAAANbGnQEAAAAAAbaa5%2BpdWfxIszGLrhy%2FnL%2B5pPU%3DdDHetcnN502kKj2iWW2BHHcB8Nh1VGiY09lXXjk8A49XV6JydB'
 # consumer_key = "gWREkSJyHnZ0EX2TbDf6ls6hr"
 #     consumer_secret = "xdV9tuU5OHqHlGb2kqsSsqcVlnrVNHegaQoyy2eUMkfeLcLIdY"
 #     access_token = '1401910044547944448-IYTjEOmLy8D8nGDPeLYAdfoNuLgvL1'
@@ -36,9 +36,14 @@ def get_tweets(username):
     # )
 
     # Create the API client object
-
-    client = tweepy.Client(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token=access_token,
-                           access_token_secret=access_token_secret, bearer_token=bearer_token)
+    bearer_token = "AAAAAAAAAAAAAAAAAAAAALoOngEAAAAAi85y1biSxG3g9bn9qAcc%2FE3c29k%3DR7IeUWtHa3rshFlNN1JzAPtf9d7vBr5ZZHk7Z0hp2orYPjZfnt"
+    api_key = "12d9WHQKqTjQzDono9yy2peAt"
+    api_key_secret = "YVdO3C1kJ6rs3obl6y6p5cdgoh9T3o8Ei2U18EZW2XSLKWTHwq"
+    access_token = "1533426490078941184-TmlRobTGcUYzcwPIZNPHATEE9EMsxb"
+    access_security = "ezSfoT7UjxbNTR4pL4NOqDoR6g6G3ezoOwkQ64uDh6s54"
+    client = tweepy.Client(consumer_key=api_key, consumer_secret=api_key_secret, access_token=access_token,
+                           access_token_secret=access_security, bearer_token=bearer_token)
+    api = tweepy.OAuth1UserHandler(consumer_key=api_key,consumer_secret=api_key_secret,access_token_secret=access_security,access_token=access_token)
     # for tweet in tweepy.Paginator(client.search_recent_tweets, query=username,max_results= 100):
     #     tweets.append(tweet.text)
 
@@ -48,13 +53,18 @@ def get_tweets(username):
     user = client.get_user(username=username)
 
     # Extract the user ID from the user object
-    user_id = user.id
+    user_id = user.data.id
+    # print(user)
     tweetey = client.get_users_tweets(user_id, max_results=20)
 
     tweets = []
     # Print the tweets
-    for tweet in tweetey:
-        tweets.append(tweet.text)
+    for index, text in enumerate(tweetey):
+        print(text)
+        tweets.append(str(text))
+    # for tweet in tweetey:
+    #     print(tweet.text)
+    #     tweets.append(tweet.data.text)
 
     return tweets
 

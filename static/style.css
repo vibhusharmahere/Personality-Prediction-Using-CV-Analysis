@@ -1,0 +1,210 @@
+
+:root {
+    --font-default: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-primary: "Montserrat", sans-serif;
+    --font-secondary: "Poppins", sans-serif;
+  }
+  
+  /* Colors */
+  :root {
+    --color-default: #222222;
+    --color-primary: #209cee;
+    --color-secondary: #f85a40;
+  }
+  
+  /* Smooth scroll behavior */
+  :root {
+    scroll-behavior: smooth;
+  }
+  
+/* primary color = #EE5253 */
+
+body{
+    background-color: #343F56;
+    color: white;
+    /* background-image: url(/images/online_cv.svg); */
+
+}
+
+label{
+    padding-bottom: 4px;
+    color: white;
+}
+  /* social - icons  */
+
+.fa-linkedin {
+    /* background: #007bb5; */
+    color: white;
+    padding-right: 5px ;
+    border-radius: 50%;
+    margin-bottom: .3rem;
+    
+  }
+  
+  .fa:hover {
+      opacity: 0.7;
+  }
+
+  
+  .fa-rss {
+      background: #ff6600;
+      color: white;
+      padding: .4rem;
+      border-radius: 20%;
+      margin-bottom: .3rem;
+    }
+
+.fa-github{
+
+    margin-bottom: .3rem;
+    font-size: 1.2rem;
+}
+
+.github{
+    margin-top: 8px;
+}
+
+.profile{
+    border-radius: 50%;
+}
+
+#cv-template{
+    display: none;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    color: yellow;
+}
+.background-left{
+    background-color: #EE5253;
+}
+
+
+.defaultAvatar{
+    height: 10rem;
+    width: 10rem;
+    border-radius: 50%;
+}
+
+@media print{
+    body {
+        background: none;
+        background-color: none;
+    }
+
+    .mycontainer {
+
+        width: 6.5in;
+        height: 9in;
+        padding: 0;
+        margin: 0;
+       
+
+    }
+    .printbtn{
+        display: none;
+    }
+
+    .badge-pill {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        }
+    
+
+    
+    
+
+    
+    
+}
+
+
+
+//******************//
+
+//**** SUBMIT ******//
+
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  $openSans: 'Open Sans', Helvetica, Arial, sans-serif;
+  
+  .buttons {
+    margin-top: 50px;
+    text-align: center;
+    border-radius: 30px;
+  }
+  
+  $cyan: #0505A9;
+  $dark: #FFFFFF;
+  $borderW: 2px;
+  
+  .blob-btn {
+    $numOfBlobs: 4;
+    z-index: 1;
+    position: relative;
+    padding: 20px 46px;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    color: $cyan;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    transition: color 0.5s;
+    cursor: pointer;
+    border-radius: 30px;
+  
+    &:before {
+      content: "";
+      z-index: 1;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      border: $borderW solid $cyan;
+      border-radius: 30px;
+    }
+  
+    &:after {
+      content: "";
+      z-index: -2;
+      position: absolute;
+      left: $borderW*1.5;
+      top: $borderW*1.5;
+      width: 100%;
+      height: 100%;
+  
+      transition: all 0.3s 0.2s;
+      border-radius: 30px;
+    }
+  
+    &:hover {
+      color: $dark;
+      border-radius: 30px;
+  
+      &:after {
+        transition: all 0.3s;
+        left: 0;
+        top: 0;
+        border-radius: 30px;
+      }
+    }
+  
+    &__inner {
+      z-index: -1;
+      overflow: hidden;
+      position
+  
