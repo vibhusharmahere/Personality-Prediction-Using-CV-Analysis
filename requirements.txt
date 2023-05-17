@@ -1,4 +1,5 @@
 scipy
+sklearn
 flask
 pdfplumber
 PyPDF2
