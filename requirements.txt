@@ -1,7 +1,6 @@
 scipy
 flask
 pdfplumber
-pickle
 re
 PyPDF2
 spacy
