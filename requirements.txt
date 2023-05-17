@@ -1,7 +1,13 @@
 scipy
-flast
+flask
 pdfplumber
 pickle
 re
 PyPDF2
 spacy
+pickle
+nltk
+contractions
+re
+pandas
+tweepy
