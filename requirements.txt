@@ -1,10 +1,8 @@
 scipy
 flask
 pdfplumber
-re
 PyPDF2
 spacy
-pickle
 nltk
 contractions
 re
