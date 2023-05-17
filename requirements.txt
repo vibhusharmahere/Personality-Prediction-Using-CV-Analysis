@@ -5,6 +5,5 @@ PyPDF2
 spacy
 nltk
 contractions
-re
 pandas
 tweepy
