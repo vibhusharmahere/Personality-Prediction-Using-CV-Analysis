@@ -1,0 +1,7 @@
+scipy
+flast
+pdfplumber
+pickle
+re
+PyPDF2
+spacy
